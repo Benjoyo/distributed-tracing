@@ -5,7 +5,7 @@ Non- and minimally-intrusive distributed tracing system for the IoT.
 The trace server.
 Started e.g. as `java -jar server.jar -s mqtt -p resolve -o print`
 
-## tracingclinet
+## tracingclient
 The tracing client (observer).
 Started e.g. as `java -jar client.jar -n $HOSTNAME -s server_ip -d NRF52840_XXAA`
 
