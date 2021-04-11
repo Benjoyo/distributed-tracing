@@ -1,0 +1,11 @@
+#!/bin/sh
+sudo pkill JLinkGDBServerC
+sudo pkill orbuculum
+sudo pkill gdb
+
+JLinkGDBServerCLExe -device NRF52840_XXAA -localhostonly -USB -if swd &
+sleep 4
+gdb -x swo.gdbinit &
+sleep 4
+./orbuculum -s localhost:2332 &
+sleep 4

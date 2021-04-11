@@ -1,0 +1,9 @@
+{
+  "targetConfigs": [
+    {
+      "name": "nrf52",
+      "elf_path": "zephyr.elf",
+      "watched_vars": ["test"]
+    }
+  ]
+}

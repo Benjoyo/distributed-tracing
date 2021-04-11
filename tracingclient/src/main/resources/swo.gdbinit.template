@@ -1,0 +1,73 @@
+define dwtComp
+  if ($argc != 3)
+    help dwtComp
+  else
+    if $arg0 == 0
+        set $comp = 0x020
+    end
+    if $arg0 == 1
+        set $comp = 0x030
+    end
+    if $arg0 == 2
+        set $comp = 0x040
+    end
+    if $arg0 == 3
+        set $comp = 0x050
+    end
+    set $func = ($comp+0x8)
+    set $mask = ($comp+0x4)
+
+    # set comparator to given address
+    set *($DWTBASE+$comp)  = $arg1
+
+    set *($DWTBASE+$mask)  = $arg2
+
+    # set function (emit data through ITM on read and write)
+    set *($DWTBASE+$func) |= (0xF & 0x2)
+  end
+end
+document dwtComp
+todo
+end
+
+##################################################################
+
+set $ITMBASE  = 0xE0000000
+set $DWTBASE  = 0xE0001000
+set $DCBBASE  = 0xE000EDF0
+set $TPIUBASE = 0xE0040000
+
+# connect to JLinkGDBServer
+target remote localhost:2331
+
+set mem inaccessible-by-default off
+set print pretty
+
+monitor reset  0
+
+# enable SWO and ITM for all channels
+monitor SWO EnableTarget 0 0 0xFFFFFFFF 0
+
+# make sure we can get to everything
+set *($ITMBASE+0xfb0) = 0xc5acce55
+set *($ITMBASE+0xfb0) = 0xc5acce55
+
+# flush all initial configuration
+#set *($DWTBASE)       = 0
+#set *($ITMBASE+0xe80) = 0
+
+# enable tracing (DEMCR TRCENA)
+set *($DCBBASE+0xC)|= (1<<24)
+
+# TCR
+#set *($ITMBASE+0xe80) = 0x00010000 | (1<<2) | 1
+# TER
+#set *($ITMBASE+0xe00) = 1
+# TPR
+#set *($ITMBASE+0xe40) = 1
+#set *(0x40000000 + 0x55C) |= ((1<<16)|(1<<17))
+
+{{ DWT_CONFIG }}
+
+# start execution
+c
