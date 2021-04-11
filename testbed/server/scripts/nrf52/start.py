@@ -68,7 +68,7 @@ if __name__=="__main__":
   # Start tracing observers and server if tracing config exists
   if trace_server_path:
     # start server in background
-    subprocess.Popen(["java", "-jar", trace_server_path, "-s", "mqtt", "-i", "resolve", "assert", "print", "-o", "null"], cwd=job_dir, close_fds=True)
+    subprocess.Popen(["java", "-jar", trace_server_path, "-s", "mqtt", "-p", "resolve", "-o", "print"], cwd=job_dir, close_fds=True)
     # start observers
     if pssh(hosts_path, "%s %s %d"%(os.path.join(REMOTE_SCRIPTS_PATH, "trace.sh"), get_ip(), 20), "Start trace observers") != 0:
       sys.exit(6)
