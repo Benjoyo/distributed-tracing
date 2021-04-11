@@ -1,0 +1,17 @@
+ofiles
+.cproject
+.project
+.settings/*
+.DS_Store
+*.bin
+*.hex
+*.o
+*.d
+.*.swp
+*~
+*.pyc
+tags
+.gdbinit
+*.s#*
+*.b#*
+
