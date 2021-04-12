@@ -66,7 +66,7 @@ public class InitFileHelper {
 
             if (fpga) {
                 // 4 bit FPGA tracing
-                content = content.replace("-s localhost:2332", "-o 4");
+                content = content.replace("-s localhost:2332", "-p /dev/ttyUSB1 -o 4");
             }
 
             var p = Paths.get(workingDir.getPath(), TRACE_INIT_SH);
